@@ -1,4 +1,5 @@
 import sys
+from contato import Contact
 
 
 class Options:
@@ -12,6 +13,25 @@ class Options:
     @property
     def contacts(self):
         return self._list
+
+    def salvar_arquivo(self):
+        with open("agenda.txt", "w") as arquivo:
+            for contato in self._list:
+                arquivo.write(
+                    f"{contato._first_name}, {contato._last_name}, {contato.number}, {contato.favorite}\n")
+
+    def ler_arquivo(self):
+        with open("agenda.txt", "r") as arquivo:
+            linhas = arquivo.readlines()
+            for l in linhas:
+                new_line = l.replace("\n", "")
+                first_name, last_name, number, favorite = new_line.split(", ")
+                if favorite == "True":
+                    favorite = True
+                else:
+                    favorite = False
+                item = Contact(first_name, last_name, number, favorite)
+                self._list.append(item)
 
     def favorites(self):
         pass
